@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DowJonesIndexDTO {
+public class StocksIdxDTO {
 
     private Integer quarter;
     private String stock;

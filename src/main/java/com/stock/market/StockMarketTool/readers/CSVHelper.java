@@ -1,15 +1,11 @@
 package com.stock.market.StockMarketTool.readers;
 
-import com.stock.market.StockMarketTool.dtos.DowJonesIndexDTO;
-import jdk.vm.ci.meta.Local;
+import com.stock.market.StockMarketTool.model.StocksIdxItem;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,13 +42,12 @@ public class CSVHelper {
         }
     }
 
-    public static List<DowJonesIndexDTO> csvToDowJonesIndex(File sample) throws IOException {
-        InputStream is = new FileInputStream(sample);
+    public static List<StocksIdxItem> csvToDowJonesIndex(InputStream is) throws IOException {
         BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withDelimiter(',').withHeader());
 
         Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-        List<DowJonesIndexDTO> readRecords = new ArrayList<>();
+        List<StocksIdxItem> readRecords = new ArrayList<>();
         for (CSVRecord csvRecord : csvRecords) {
 
             Double high = doubleFrom(ignoreCurrency(csvRecord.get("high"), 0));
@@ -64,30 +59,28 @@ public class CSVHelper {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/uuuu");
             LocalDate date = LocalDate.parse(csvRecord.get("date"), formatter);
-            DowJonesIndexDTO dowJonesIndexDTO = DowJonesIndexDTO.builder()
+            StocksIdxItem dowJonesIndex = StocksIdxItem.builder()
                     .close(close)
                     .date(date)
-                    .days_to_next_dividend(integerFrom(csvRecord.get("days_to_next_dividend")))
+                    .daysToNextDividend(integerFrom(csvRecord.get("days_to_next_dividend")))
                     .high(high)
                     .low(low)
                     .open(open)
-                    .next_weeks_close(nextWeekClose)
-                    .next_weeks_open(nextWeekOpen)
-                    .percent_change_next_weeks_price(doubleFrom(csvRecord.get("percent_change_next_weeks_price")))
-                    .percent_change_volume_over_last_wk(doubleFrom(csvRecord.get("percent_change_volume_over_last_wk")))
-                    .previous_weeks_volume(longFrom(csvRecord.get("previous_weeks_volume")))
-                    .percent_change_price(Double.valueOf(csvRecord.get("percent_change_price")))
+                    .nextWeeksOpen(nextWeekClose)
+                    .nextWeeksClose(nextWeekOpen)
+                    .percentChangePrice(doubleFrom(csvRecord.get("percent_change_next_weeks_price")))
+                    .percentChangeVolumeOverLastWk(doubleFrom(csvRecord.get("percent_change_volume_over_last_wk")))
+                    .previousWeeksVolume(longFrom(csvRecord.get("previous_weeks_volume")))
+                    .percentReturnNextDividend(Double.valueOf(csvRecord.get("percent_change_price")))
                     .quarter(integerFrom(csvRecord.get("quarter")))
                     .volume(longFrom(csvRecord.get("volume")))
-                    .percent_return_next_dividend(doubleFrom(csvRecord.get("percent_return_next_dividend")))
+                    .percentChangeNextWeeksPrice(doubleFrom(csvRecord.get("percent_return_next_dividend")))
                     .stock(csvRecord.get("stock"))
                     .build();
-            readRecords.add(dowJonesIndexDTO);
+            readRecords.add(dowJonesIndex);
         }
         return readRecords;
     }
-
-
 }
 
 
