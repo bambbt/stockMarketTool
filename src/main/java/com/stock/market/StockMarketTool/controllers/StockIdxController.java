@@ -1,5 +1,6 @@
 package com.stock.market.StockMarketTool.controllers;
 
+import com.stock.market.StockMarketTool.commands.SaveStockIdxCommand;
 import com.stock.market.StockMarketTool.dtos.StocksIdxDTO;
 import com.stock.market.StockMarketTool.exceptions.StockIdxControllerBadRequestException;
 import com.stock.market.StockMarketTool.services.StocksIdxService;
@@ -12,12 +13,12 @@ import java.util.List;
 @RequestMapping("api/v1")
 public class StockIdxController {
 
-    private StocksIdxService StocksIdxService;
+    private StocksIdxService stocksIdxService;
 
 
     @Autowired
     void dowJonesDataUploadService(StocksIdxService service) {
-        this.StocksIdxService = service;
+        this.stocksIdxService = service;
     }
 
 
@@ -27,6 +28,16 @@ public class StockIdxController {
             String message = "Missing path param stocks symbol. Specify the value.";
             throw new StockIdxControllerBadRequestException(message);
         }
-        return this.StocksIdxService.getStocksIdxBySymbol(stocksSymbol);
+        return this.stocksIdxService.getStocksIdxBySymbol(stocksSymbol);
+    }
+
+    @PostMapping("/stocksIdxs/stockIdx")
+    public StocksIdxDTO add(@RequestBody SaveStockIdxCommand command) {
+        if (command.validate()) {
+            return this.stocksIdxService.save(command);
+        } else {
+            String message = "The stock you are trying to save is invalid.";
+            throw new StockIdxControllerBadRequestException(message);
+        }
     }
 }
