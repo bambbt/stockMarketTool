@@ -74,10 +74,10 @@ public class CSVHelper {
                     .percentChangePrice(doubleFrom(csvRecord.get("percent_change_next_weeks_price")))
                     .percentChangeVolumeOverLastWk(doubleFrom(csvRecord.get("percent_change_volume_over_last_wk")))
                     .previousWeeksVolume(longFrom(csvRecord.get("previous_weeks_volume")))
-                    .percentReturnNextDividend(Double.valueOf(csvRecord.get("percent_change_price")))
+                    .percentReturnNextDividend(Double.valueOf(csvRecord.get("percent_return_next_dividend")))
                     .quarter(integerFrom(csvRecord.get("quarter")))
                     .volume(longFrom(csvRecord.get("volume")))
-                    .percentChangeNextWeeksPrice(doubleFrom(csvRecord.get("percent_return_next_dividend")))
+                    .percentChangeNextWeeksPrice(doubleFrom(csvRecord.get("percent_change_next_weeks_price")))
                     .stock(csvRecord.get("stock"))
                     .build();
             readRecords.add(dowJonesIndex);

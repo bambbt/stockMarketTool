@@ -21,7 +21,7 @@ public class StockIdxController {
     }
 
 
-    @GetMapping("/stocksIdxs/{stockSymbol}")
+    @GetMapping("/stocksIdxs/{stocksSymbol}")
     public List<StocksIdxDTO> fetchStocksBySymbol(@PathVariable String stocksSymbol) {
         if (stocksSymbol == null || stocksSymbol.isEmpty()) {
             String message = "Missing path param stocks symbol. Specify the value.";

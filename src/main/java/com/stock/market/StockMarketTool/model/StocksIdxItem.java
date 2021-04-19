@@ -1,7 +1,9 @@
 package com.stock.market.StockMarketTool.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,7 +11,9 @@ import java.time.LocalDate;
 @Entity
 @Builder
 @Data
-@Table(name = "DowJonesIdx")
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "stocksidxitem")
 public class StocksIdxItem {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
