@@ -1,7 +1,7 @@
 package com.stock.market.StockMarketTool;
 
-import com.stock.market.StockMarketTool.repository.StocksIdxItemRepository;
-import com.stock.market.StockMarketTool.exceptions.StocksIdxUploadService;
+import com.stock.market.StockMarketTool.repository.StocksIdxRepository;
+import com.stock.market.StockMarketTool.services.StocksIdxUploadService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ public class DowJonesDataUploadServiceTest {
     @Autowired
     private StocksIdxUploadService service;
     @Autowired
-    private StocksIdxItemRepository repository;
+    private StocksIdxRepository repository;
 
     @Test
     void successfullyStoresDowJonesData() throws IOException {
